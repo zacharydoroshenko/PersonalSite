@@ -1,0 +1,5 @@
+.ssh/
+deploy.log
+*.log
+.env
+.ssh/
