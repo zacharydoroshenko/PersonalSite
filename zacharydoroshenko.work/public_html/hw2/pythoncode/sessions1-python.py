@@ -4,33 +4,43 @@ import cgi
 import uuid
 import http.cookies
 
-# 1. Parse incoming form data
+# 1. Parse incoming data (POST and Cookies)
 form = cgi.FieldStorage()
 input_name = form.getvalue('username')
 
-# 2. Session Initialization
-# Generate a new ID and cookie if a name is provided
-session_id = str(uuid.uuid4())
+cookie = http.cookies.SimpleCookie(os.environ.get("HTTP_COOKIE"))
+sid = cookie["PY_SESSID"].value if "PY_SESSID" in cookie else None
+
+# 2. Session Logic
 if input_name:
-    # Save data to server-side file
-    with open(f"/tmp/python_sess_{session_id}", "w") as f:
+    # New login: Create new session
+    sid = str(uuid.uuid4())
+    with open(f"/tmp/python_sess_{sid}", "w") as f:
         f.write(input_name)
-    # Set cookie for the browser
-    print(f"Set-Cookie: PY_SESSID={session_id}; Path=/")
+    print(f"Set-Cookie: PY_SESSID={sid}; Path=/")
+    display_name = input_name
+elif sid:
+    # Returning user: Check if session file exists
+    sess_file = f"/tmp/python_sess_{sid}"
+    if os.path.exists(sess_file):
+        with open(sess_file, "r") as f:
+            display_name = f.read()
+    else:
+        display_name = None
+else:
+    display_name = None
 
 # 3. Output Headers
 print("Content-Type: text/html\n")
 
-# 4. UI
+# 4. Display Logic
 print("<html><body><h1>Python Sessions Page 1</h1>")
-if input_name:
-    print(f"<p><b>Name:</b> {input_name} (Saved to session)</p>")
+if display_name:
+    print(f"<p><b>Name:</b> {display_name}</p>")
+    print('<br><a href="sessions2-python.py">Go to Session Page 2</a><br>')
 else:
     print("<p><b>Name:</b> You do not have a name set</p>")
-
-print('<br>')
-print('<a href="sessions2-python.py">Session Page 2</a><br>')
-print('<a href="/hw2/index-state.html">Back to State Entry</a>')
+    print('<a href="/hw2/index-state.html">Back to State Entry</a><br>')
 
 print('<form style="margin-top:30px" action="destroy-session-python.py" method="POST">')
 print('<button type="submit">Destroy Session</button></form>')
