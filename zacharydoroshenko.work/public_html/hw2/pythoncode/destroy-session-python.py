@@ -13,4 +13,4 @@ if sid:
 print("Set-Cookie: PY_SESSID=; Max-Age=0; Path=/")
 print("Content-type: text/html\n")
 print("<h1>Python Session Destroyed</h1>")
-print("<a href='python-sessions-1.py'>Back to Page 1</a>")
+print("<a href='sessions1-python.py'>Back to Page 1</a>")

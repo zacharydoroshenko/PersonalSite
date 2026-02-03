@@ -23,6 +23,6 @@ int main() {
     cout << "Set-Cookie: CPP_SESSID=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/\n";
     cout << "Content-type: text/html\n\n";
     cout << "<h1>C++ Session Destroyed</h1>";
-    cout << "<a href='cpp-sessions-1.cgi'>Back to Page 1</a>";
+    cout << "<a href='sessions1-cpp.cgi'>Back to Page 1</a>";
     return 0;
 }

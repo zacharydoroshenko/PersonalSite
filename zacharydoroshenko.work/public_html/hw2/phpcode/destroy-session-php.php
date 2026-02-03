@@ -22,6 +22,6 @@ session_destroy();
 <body>
     <h1>Session Successfully Cleared</h1>
     <p>The server-side data has been wiped.</p>
-    <a href="/hw2/index-state.html">Back to Start</a>
+    <a href="/hw2/phpcode/sessions1-php.php">Back to session 1</a>
 </body>
 </html>
