@@ -16,7 +16,7 @@ int main() {
     cout << "<body>" << endl;
 
     cout << "<h1 align=\"center\">Hello HTML World</h1><hr/>" << endl;
-    cout << "<p>Hello from Zachary and Team!</p>" << endl;
+    cout << "<p>Hello!</p>" << endl;
     cout << "<p>This page was generated with the C++ programming language.</p>" << endl;
 
     // 3. Date and Time

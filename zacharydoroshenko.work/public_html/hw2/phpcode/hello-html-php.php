@@ -9,9 +9,9 @@ header("Cache-Control: no-cache");
     <title>Hello CGI World! This is Zachary!</title>
 </head>
 <body>
-    <h1 align="center">Hello HTML World</h1>
+    <h1>Hello HTML World</h1>
     <hr/>
-    <p>Hello from Zachary and Team!</p>
+    <p>Hello!</p>
     <p>This page was generated with the PHP programming language.</p>
 
     <?php

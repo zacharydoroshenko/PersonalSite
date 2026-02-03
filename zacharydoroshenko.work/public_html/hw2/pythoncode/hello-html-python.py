@@ -15,7 +15,7 @@ print("</head>")
 print("<body>")
 
 print("<h1 align='center'>Hello HTML World</h1><hr/>")
-print("<p>Hello from Zachary and Team!</p>")
+print("<p>Hello!</p>")
 print("<p>This page was generated with the Python programming language.</p>")
 
 # Date and Time
