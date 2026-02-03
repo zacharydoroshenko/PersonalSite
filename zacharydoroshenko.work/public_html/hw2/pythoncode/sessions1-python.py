@@ -20,7 +20,7 @@ if input_name:
     print(f"Set-Cookie: PY_SESSID={sid}; Path=/")
     display_name = input_name
 elif sid:
-    # Returning user: Check if session file exists
+    # Returning user: Check if session file exists 
     sess_file = f"/tmp/python_sess_{sid}"
     if os.path.exists(sess_file):
         with open(sess_file, "r") as f:
