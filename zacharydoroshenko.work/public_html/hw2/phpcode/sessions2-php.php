@@ -1,20 +1,20 @@
 <?php
 session_start();
-$name = $_SESSION['username'] ?? "You do not have a name set";
+
+$is_session_active = isset($_SESSION['username']);
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>PHP Sessions</title></head>
+<head><title>PHP Sessions - Page 2</title></head>
 <body>
     <h1>PHP Sessions Page 2</h1>
-    <p><b>Name:</b> <?php echo htmlspecialchars($name); ?></p>
-    
-    <br>
-    <a href="sessions1-php.php">Session Page 1</a><br>
-    <a href="/hw2/index-state.html">Back to State Entry</a><br>
-    
-    <form style="margin-top:30px" action="destroy-session-php.php" method="POST">
-        <button type="submit">Destroy Session</button>
-    </form>
+
+    <?php if ($is_session_active): ?>
+        <p><b>Session Name:</b> <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+        <a href="sessions1-php.php">Back to Page 1</a>
+    <?php else: ?>
+        <p style="color:red;"><b>Error:</b> No active session found!</p>
+        <a href="/hw2/index-state.html">Return to Dashboard</a>
+    <?php endif; ?>
 </body>
 </html>
