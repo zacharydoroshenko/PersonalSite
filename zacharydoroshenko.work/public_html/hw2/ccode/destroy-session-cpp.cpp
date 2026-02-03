@@ -1,28 +1,43 @@
 #include <iostream>
-#include <cstdio>
 #include <string>
-#include <cstdlib>
+#include <stdio.h> // Required for remove()
+#include <stdlib.h>
 
 using namespace std;
 
 int main() {
-    // 1. Logic to extract cookie (simplified for brevity)
-    char* raw_cookies = getenv("HTTP_COOKIE");
-    string sid = ""; 
-    if (raw_cookies) {
-        // ... extraction logic ...
+    // 1. Get the Cookie from the environment
+    char* cookie_env = getenv("HTTP_COOKIE");
+    string sid = "";
+    
+    if (cookie_env != NULL) {
+        string cookie_str = cookie_env;
+        // Search for the specific C++ Session ID (e.g., CPP_SESSID)
+        size_t pos = cookie_str.find("CPP_SESSID=");
+        if (pos != string::npos) {
+            size_t start = pos + 11;
+            size_t end = cookie_str.find(";", start);
+            sid = cookie_str.substr(start, end - start);
+        }
     }
 
-    // 2. Delete the file from /tmp
+    // 2. Delete the file from /tmp/ if the session ID exists
     if (!sid.empty()) {
-        string filename = "/tmp/cpp_sess_" + sid;
-        remove(filename.c_str());
+        string filepath = "/tmp/cpp_sess_" + sid;
+        remove(filepath.c_str()); // This physically deletes the file from the server
     }
 
-    // 3. Expire the cookie
-    cout << "Set-Cookie: CPP_SESSID=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/\n";
-    cout << "Content-type: text/html\n\n";
+    // 3. Output Headers and Expire the Cookie
+    cout << "Set-Cookie: CPP_SESSID=; Max-Age=0; Path=/\r\n";
+    cout << "Content-type:text/html\r\n\r\n";
+
+    // 4. UI Feedback
+    cout << "<html><body>";
     cout << "<h1>C++ Session Destroyed</h1>";
-    cout << "<a href='sessions1-cpp.cgi'>Back to Page 1</a>";
+    cout << "<p>The server-side state file and cookies have been cleared.</p>";
+    cout << "<a href=\"sessions1-cpp.cgi\">Back to Page 1</a><br>";
+    cout << "<a href=\"/hw2/index-state.html\">Back to Dashboard</a>";
+    cout << "</body></html>";
+
     return 0;
 }
