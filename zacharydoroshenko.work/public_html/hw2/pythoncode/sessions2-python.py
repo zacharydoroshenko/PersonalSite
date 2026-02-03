@@ -8,7 +8,7 @@ sid = cookie["PY_SESSID"].value if "PY_SESSID" in cookie else None
 
 username = "You do not have a name set"
 
-# 2. If Session ID exists, read the name from the server-side file
+# 2. Read name from the server-side file
 if sid:
     sess_file = f"/tmp/python_sess_{sid}"
     if os.path.exists(sess_file):
@@ -17,8 +17,7 @@ if sid:
 
 # 3. Output HTML
 print("Content-type: text/html\n")
-print("<html><head><title>Python Sessions - Page 2</title></head><body>")
-print("<h1>Python Sessions Page 2</h1>")
+print("<html><body><h1>Python Sessions Page 2</h1>")
 print(f"<p><b>Name:</b> {username}</p>")
 
 print("<br>")
