@@ -1,7 +1,6 @@
 <?php
-session_start();
-
-// Retrieve the name from the session
+session_start(); 
+// Because of session_start(), PHP automatically looks up the cookie and finds the name
 $name = $_SESSION['username'] ?? "You do not have a name set";
 ?>
 <!DOCTYPE html>

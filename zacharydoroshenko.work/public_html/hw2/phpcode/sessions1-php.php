@@ -1,9 +1,8 @@
 <?php
-session_start();
+session_start(); // Must be first!
 
-// Store data if it was posted from index-state.html
 if (isset($_POST['username'])) { 
-    $_SESSION['username'] = $_POST['username']; 
+    $_SESSION['username'] = $_POST['username']; // This saves it to the server
 }
 
 $name = $_SESSION['username'] ?? "You do not have a name set";
