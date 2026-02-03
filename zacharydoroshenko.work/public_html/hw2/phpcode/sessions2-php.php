@@ -11,7 +11,7 @@ $name = $_SESSION['username'] ?? "You do not have a name set";
     
     <br>
     <a href="sessions1-php.php">Session Page 1</a><br>
-    <a href="/index-state.html">Back to State Entry</a><br>
+    <a href="/hw2/index-state.html">Back to State Entry</a><br>
     
     <form style="margin-top:30px" action="destroy-session-php.php" method="POST">
         <button type="submit">Destroy Session</button>
