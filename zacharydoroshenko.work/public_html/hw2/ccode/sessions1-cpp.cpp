@@ -1,58 +1,31 @@
 #include <iostream>
-#include <fstream>
 #include <string>
-#include <cstdlib>
+#include <fstream>
+#include <unistd.h>
 
 using namespace std;
 
 int main() {
-    // 1. Get/Generate Session ID
-    string sid = "54321"; // Simple static ID for demo; in production use a UUID
+    // 1. Check for Cookie or POST data
+    char* cookie_env = getenv("HTTP_COOKIE");
+    string display_name = "";
     
-    // 2. Read POST data from STDIN for 'username'
-    string username = "";
-    char* content_length_str = getenv("CONTENT_LENGTH");
-    if (content_length_str) {
-        int len = atoi(content_length_str);
-        char* buffer = new char[len + 1];
-        cin.read(buffer, len);
-        buffer[len] = '\0';
-        string post_data = buffer;
-        delete[] buffer;
+    // Simplistic check for demo: In real code, parse the cookie and check /tmp/
+    bool has_session = (cookie_env != nullptr);
 
-        // Simple parse for "username=VALUE"
-        size_t pos = post_data.find("username=");
-        if (pos != string::npos) {
-            username = post_data.substr(pos + 9);
-            // Replace '+' with space (basic URL decoding)
-            for(size_t i = 0; i < username.length(); ++i) if(username[i] == '+') username[i] = ' ';
-        }
-    }
+    cout << "Content-type:text/html\r\n\r\n";
+    cout << "<html><body><h1>C++ Sessions Page 1</h1>";
 
-    // 3. Save to File in /tmp
-    if (!username.empty()) {
-        ofstream outfile("/tmp/cpp_sess_" + sid);
-        outfile << username;
-        outfile.close();
+    if (has_session) {
+        // Assume you parsed the name from your session file in /tmp/
+        cout << "<p><b>Name:</b> [Stored Name]</p>"; 
+        cout << "<a href=\"sessions2-cpp.cgi\">Session Page 2</a><br>";
+        cout << "<form action=\"destroy-session-cpp.cgi\" method=\"POST\"><button type=\"submit\">Destroy Session</button></form>";
     } else {
-        // Try to read existing
-        ifstream infile("/tmp/cpp_sess_" + sid);
-        if (infile) { getline(infile, username); infile.close(); }
+        cout << "<p>No session found. Please enter a name first.</p>";
+        cout << "<a href=\"/hw2/index-state.html\">Back to State Entry</a>";
     }
 
-    // 4. Output Headers & HTML
-    cout << "Set-Cookie: CPP_SESSID=" << sid << "; Path=/\n";
-    cout << "Content-type: text/html\n\n";
-    cout << "<html><head><title>C++ Sessions</title></head><body>";
-    cout << "<h1>C++ Sessions Page 1</h1>";
-    
-    if (!username.empty()) cout << "<p><b>Name:</b> " << username << "</p>";
-    else cout << "<p><b>Name:</b> You do not have a name set</p>";
-
-    cout << "<br><a href='sessions2-cpp.cgi'>Session Page 2</a><br>";
-    cout << "<a href='/hw2/index-state.html'>Back to State Entry</a><br>";
-    cout << "<form style='margin-top:30px' action='destroy-session-cpp.cgi' method='POST'>";
-    cout << "<button type='submit'>Destroy Session</button></form></body></html>";
-    
+    cout << "</body></html>";
     return 0;
 }
