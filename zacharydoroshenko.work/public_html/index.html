@@ -9,10 +9,11 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <script src="https://cdn.lr-ingest.com/LogRocket.min.js" crossorigin="anonymous"></script>
+
   <script>
-    // Replace 'your-org/your-project' with the ID from your LogRocket dashboard
-    import LogRocket from 'logrocket';
-    LogRocket.init('ds9gqg/mysite');
+    if (window.LogRocket) {
+      window.LogRocket.init('ds9gqg/mysite');
+    }
   </script>
 </head>
 
