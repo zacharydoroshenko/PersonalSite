@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head><title>Multi-Language Echo Form</title></head>
+<body>
+    <h1>Echo Request Form</h1>
+    <form id="echoForm" action="/cgi-bin/perl-echo.pl" method="POST">
+        
+        <label>Target Language:</label>
+        <select id="language" name="language">
+            <option value="/hw2/perlcode/echo-perl.pl">Perl</option>
+            <option value="/hw2/pythoncode/echo-python.py">Python</option>
+            <option value="/hw2/phpcode/echo-php.php">PHP</option>
+            <option value="/hw2/ccode/echo-cpp.cgi">C++</option>
+        </select>
+
+        <label>HTTP Method:</label>
+        <select id="method" name="method">
+            <option value="GET">GET</option>
+            <option value="POST" selected>POST</option>
+            <option value="PUT">PUT</option>
+            <option value="DELETE">DELETE</option>
+        </select><br><br>
+
+        <label>Encoding:</label>
+        <select id="encoding">
+            <option value="application/x-www-form-urlencoded">URL Encoded</option>
+            <option value="application/json">JSON</option>
+        </select><br><br>
+
+        <label>Your Name:</label>
+        <input type="text" name="username" value="Zachary"><br><br>
+
+        <button type="submit">Submit Request</button>
+    </form>
+
+    <script>
+        document.getElementById('echoForm').onsubmit = function(e) {
+            const method = document.getElementById('method').value;
+            const encoding = document.getElementById('encoding').value;
+            const endpoint = document.getElementById('language').value;
+
+            // If it's a standard POST/GET and URL Encoded, let the HTML form handle it for simplicity
+            if ((method === 'GET' || method === 'POST') && encoding !== 'application/json') {
+                this.action = endpoint;
+                this.method = method;
+                return true; 
+            }
+
+            // Otherwise, we MUST use JavaScript Fetch for PUT, DELETE, or JSON
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            let bodyData;
+            let headers = {};
+
+            if (encoding === 'application/json') {
+                headers['Content-Type'] = 'application/json';
+                bodyData = JSON.stringify(Object.from_rows(formData));
+            } else {
+                headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                bodyData = new URLSearchParams(formData).toString();
+            }
+
+            fetch(endpoint, {
+                method: method,
+                headers: headers,
+                body: (method !== 'GET') ? bodyData : null
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.open();
+                document.write(html);
+                document.close();
+            });
+        };
+    </script>
+</body>
+</html>

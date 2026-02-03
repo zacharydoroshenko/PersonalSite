@@ -6,7 +6,7 @@ print "Content-Type: text/html\n\n";
 print "<!DOCTYPE html>";
 print "<html>";
 print "<head>";
-print "<title>Hello CGI World</title>";
+print "<title>Hello CGI World! This is Zachary!</title>";
 print "</head>";
 print "<body>";
 

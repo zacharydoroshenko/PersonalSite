@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><title>State Management Dashboard</title></head>
+<body>
+    <h1>Server-Side State Management</h1>
+    <p>Enter a name and choose a language to test server-side sessions.</p>
+    
+    <form id="stateForm" action="/hw2/perlcode/perl-sessions-1.pl" method="POST">
+        <label><b>1. Select Language:</b></label><br>
+        <select id="langSelect" onchange="document.getElementById('stateForm').action = this.value">
+            <option value="/hw2/perlcode/perl-sessions-1.pl">Perl (CGI)</option>
+            <option value="/hw2/phpcode/sessions1-php.php">PHP (Native)</option>
+            <option value="/hw2/pythoncode/sessions1-python.py">Python (CGI)</option>
+            <option value="/hw2/ccode/sessions1-cpp.cgi">C++ (Compiled CGI)</option>
+        </select>
+        <br><br>
+        
+        <label><b>2. Enter Name:</b></label><br>
+        <input type="text" name="username" placeholder="Enter your name" required>
+        <br><br>
+        
+        <button type="submit">Initialize Session</button>
+    </form>
+</body>
+</html>
