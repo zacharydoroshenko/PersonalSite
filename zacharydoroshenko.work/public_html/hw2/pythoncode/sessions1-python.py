@@ -33,7 +33,7 @@ else:
 
 print("<br>")
 print("<a href='sessions2-python.py'>Session Page 2</a><br>")
-print("<a href='/index-state.html'>Back to State Entry</a><br>")
+print("<a href='/hw2/index-state.html'>Back to State Entry</a><br>")
 
 print("<form style='margin-top:30px' action='destroy-session-python.py' method='POST'>")
 print("<button type='submit'>Destroy Session</button></form>")

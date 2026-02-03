@@ -53,7 +53,7 @@ int main() {
     cout << "<p><b>Query String:</b> " << query << "</p>\n";
     cout << "<p><b>Message Body:</b> " << (body.empty() ? "(empty)" : body) << "</p>\n";
 
-    cout << "<br><a href=\"/echo-form.html\">Back to Form</a>\n";
+    cout << "<br><a href=\"/hw2/form.html\">Back to Form</a>\n";
     cout << "</body>\n</html>" << endl;
 
     return 0;

@@ -31,7 +31,7 @@ int main() {
     else cout << "<p><b>Name:</b> You do not have a name set</p>";
     
     cout << "<br><a href='sessions1-cpp.cgi'>Session Page 1</a><br>";
-    cout << "<a href='/index-state.html'>Back to State Entry</a><br>";
+    cout << "<a href='/hw2/index-state.html'>Back to State Entry</a><br>";
     cout << "<form style='margin-top:30px' action='destroy-session-cpp.cgi' method='POST'>";
     cout << "<button type='submit'>Destroy Session</button></form></body></html>";
     return 0;

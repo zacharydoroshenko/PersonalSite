@@ -39,6 +39,6 @@ print(f"""<!DOCTYPE html>
     <p><b>Query String:</b> {query}</p>
     <p><b>Message Body:</b> {body if body else "(empty)"}</p>
     <br>
-    <a href="/echo-form.html">Back to Form</a>
+    <a href="/hw2/form.html">Back to Form</a>
 </body>
 </html>""")
