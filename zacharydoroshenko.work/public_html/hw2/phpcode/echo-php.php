@@ -1,9 +1,9 @@
 <?php
-// 1. Required Headers
+
 header("Cache-Control: no-cache");
 header("Content-Type: text/html");
 
-// 2. Collect Metadata (Equivalent to the Perl %ENV keys)
+
 $protocol   = $_SERVER['SERVER_PROTOCOL'] ?? 'N/A';
 $method     = $_SERVER['REQUEST_METHOD'] ?? 'N/A';
 $query      = $_SERVER['QUERY_STRING'] ?? 'N/A';
@@ -12,11 +12,9 @@ $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
 $ip_address = $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
 $date_time  = date('l, F j, Y H:i:s');
 
-// 3. Read the Message Body (Standard Input equivalent)
-// php://input allows us to read raw data from POST, PUT, or DELETE
+
 $message_body = file_get_contents('php://input');
 
-// 4. Output the HTML (Using a Heredoc for clean formatting)
 echo <<<END
 <!DOCTYPE html>
 <html>

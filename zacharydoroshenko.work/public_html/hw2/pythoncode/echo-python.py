@@ -3,12 +3,11 @@ import os
 import sys
 from datetime import datetime
 
-# 1. Required CGI Headers
+
 print("Cache-Control: no-cache")
 print("Content-type: text/html\n")
 
-# 2. Collect Metadata from Environment Variables
-# These match the variables used in your Perl general echo script
+
 protocol   = os.environ.get('SERVER_PROTOCOL', 'N/A')
 method     = os.environ.get('REQUEST_METHOD', 'N/A')
 query      = os.environ.get('QUERY_STRING', 'N/A')
@@ -17,12 +16,11 @@ user_agent = os.environ.get('HTTP_USER_AGENT', 'Unknown')
 ip_address = os.environ.get('REMOTE_ADDR', 'Unknown')
 date_time  = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-# 3. Read the Message Body from Standard Input (STDIN)
-# Logic mirrors the Perl read STDIN approach
+
 content_length = int(os.environ.get('CONTENT_LENGTH', 0))
 body = sys.stdin.read(content_length) if content_length > 0 else ""
 
-# 4. Output the HTML
+
 print(f"""<!DOCTYPE html>
 <html>
 <head><title>Python General Request Echo</title></head>

@@ -4,23 +4,22 @@ import cgi
 import uuid
 import http.cookies
 
-# 1. Parse incoming data (POST and Cookies)
 form = cgi.FieldStorage()
 input_name = form.getvalue('username')
 
 cookie = http.cookies.SimpleCookie(os.environ.get("HTTP_COOKIE"))
 sid = cookie["PY_SESSID"].value if "PY_SESSID" in cookie else None
 
-# 2. Session Logic
+
 if input_name:
-    # New login: Create new session
+
     sid = str(uuid.uuid4())
     with open(f"/tmp/python_sess_{sid}", "w") as f:
         f.write(input_name)
     print(f"Set-Cookie: PY_SESSID={sid}; Path=/")
     display_name = input_name
 elif sid:
-    # Returning user: Check if session file exists 
+
     sess_file = f"/tmp/python_sess_{sid}"
     if os.path.exists(sess_file):
         with open(sess_file, "r") as f:
@@ -30,10 +29,10 @@ elif sid:
 else:
     display_name = None
 
-# 3. Output Headers
+
 print("Content-Type: text/html\n")
 
-# 4. Display Logic
+
 print("<html><body><h1>Python Sessions Page 1</h1>")
 if display_name:
     print(f"<p><b>Name:</b> {display_name}</p>")

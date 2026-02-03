@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Access stored data
+
 $name = $_SESSION['username'] ?? null;
 ?>
 <html>

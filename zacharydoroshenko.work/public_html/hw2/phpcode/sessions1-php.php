@@ -1,8 +1,8 @@
 <?php
-// Initialize session - PHP handles cookie creation and /tmp storage automatically
+
 session_start();
 
-// Capture name from POST or keep existing session name
+
 if (isset($_POST['username'])) {
     $_SESSION['username'] = $_POST['username'];
 }

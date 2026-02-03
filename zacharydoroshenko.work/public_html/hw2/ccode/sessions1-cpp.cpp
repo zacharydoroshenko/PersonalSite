@@ -7,11 +7,11 @@
 using namespace std;
 
 int main() {
-    // 1. Setup Session variables
+
     string sid = "";
     string name = "";
 
-    // 2. Check for POST data (New login from dashboard)
+
     char* len_str = getenv("CONTENT_LENGTH");
     if (len_str != NULL && atoi(len_str) > 0) {
         int len = atoi(len_str);
@@ -24,20 +24,19 @@ int main() {
         size_t pos = postData.find("username=");
         if (pos != string::npos) {
             name = postData.substr(pos + 9);
-            // Create a new Session ID
+
             srand(time(NULL));
             sid = to_string(rand() % 100000);
             
-            // Write name to /tmp/ file
+
             ofstream outFile("/tmp/cpp_sess_" + sid);
             outFile << name;
             outFile.close();
 
-            // Send Cookie header
             cout << "Set-Cookie: CPP_SESSID=" << sid << "; Path=/\r\n";
         }
     } 
-    // 3. If no POST data, try to recover session from Cookie (Returning user)
+
     else {
         char* cookie_env = getenv("HTTP_COOKIE");
         if (cookie_env != NULL) {
@@ -57,7 +56,7 @@ int main() {
         }
     }
 
-    // 4. Output HTML
+
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<html><body><h1>C++ Sessions Page 1</h1>";
     if (!name.empty()) {

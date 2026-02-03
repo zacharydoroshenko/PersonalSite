@@ -16,11 +16,10 @@ int main() {
             string sid = (end == string::npos) ? cookie_str.substr(start) : cookie_str.substr(start, end - start);
             
             string filepath = "/tmp/cpp_sess_" + sid;
-            remove(filepath.c_str()); // Physical deletion from server
+            remove(filepath.c_str()); 
         }
     }
 
-    // Expire the cookie and output UI
     cout << "Set-Cookie: CPP_SESSID=; Max-Age=0; Path=/\r\n";
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<html><body><h1>C++ Session Destroyed</h1>";
