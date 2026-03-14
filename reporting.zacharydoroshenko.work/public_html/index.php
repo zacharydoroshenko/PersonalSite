@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 // __DIR__ is public_html, so we go up to find src
 require_once(__DIR__ . '/../src/auth.php'); 
 
-$action = $_GET['action'] ?? 'dashboard';
+$action = $_GET['action'] ?? 'login';
 
 // 3. Auth Guard
 if (!is_logged_in() && !in_array($action, ['login', 'do_login'])) {
@@ -19,22 +19,34 @@ if (!is_logged_in() && !in_array($action, ['login', 'do_login'])) {
 
 // 4. Routing
 switch ($action) {
+
+case 'manage_users':
+        if (!has_role('super_admin')) {
+            include 'views/403.php'; // Create a simple "Access Denied" page
+            exit;
+        }
+        $view = 'views/manage_users.php';
+        break;
+
+    case 'performance_report':
+        if (!can_access_section('performance')) {
+            include 'views/403.php';
+            exit;
+        }
+        $view = 'views/reports/performance.php';
+        break;
+
     case 'login':
         $view = 'views/login.php'; // Views are inside public_html
         $title = 'Admin Login';
         break;
 
-case 'do_login':
+    case 'do_login':
         $user = $_POST['username'] ?? '';
         $pass = $_POST['password'] ?? '';
 
         if (validate_user($user, $pass)) {
-            $_SESSION['authenticated'] = true;
-            $_SESSION['username'] = $user;
-            
-            // Force the session to save before redirecting
-            session_write_close(); 
-            
+            // validate_user already sets the session variables (role, permissions, etc.)
             header("Location: index.php?action=dashboard");
             exit;
         } else {
