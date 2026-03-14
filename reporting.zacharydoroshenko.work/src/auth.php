@@ -16,7 +16,11 @@ function validate_user($username, $password) {
 
     if (password_verify($password, $user['password_hash'])) {
         $_SESSION['authenticated'] = true;
+        $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
+
+        $_SESSION['permissions'] = json_decode($user['permissions'] ?? '[]', true);
+
         // die("Debug: Login Success! Session role is: " . $_SESSION['role']); 
         return true;
     } else {

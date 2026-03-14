@@ -2,16 +2,28 @@
 // public_html/views/manage_users.php
 if (!has_role('super_admin')) die('Unauthorized');
 
-// Handle User Creation
+// Handle User Creation or update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_user'])) {
     $new_user = $_POST['username'];
     $new_pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $new_role = $_POST['role'];
     $perms = json_encode($_POST['permissions'] ?? []);
 
-    $stmt = $pdo->prepare("INSERT INTO users (username, password_hash, role, permissions) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$new_user, $new_pass, $new_role, $perms]);
-    echo "<p style='color:green;'>User added successfully!</p>";
+    // The SQL "UPSERT" (Update or Insert)
+    $sql = "INSERT INTO users (username, password_hash, role, permissions) 
+            VALUES (?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE 
+            password_hash = VALUES(password_hash),
+            role = VALUES(role),
+            permissions = VALUES(permissions)";
+
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$new_user, $new_pass, $new_role, $perms]);
+        echo "<p style='color:green;'>User '$new_user' was created or updated successfully!</p>";
+    } catch (PDOException $e) {
+        echo "<p style='color:red;'>Error: " . htmlspecialchars($e->getMessage()) . "</p>";
+    }
 }
 
 $users = $pdo->query("SELECT * FROM users")->fetchAll();
@@ -30,6 +42,7 @@ $users = $pdo->query("SELECT * FROM users")->fetchAll();
     <strong>Permissions (for Analysts):</strong><br>
     <input type="checkbox" name="permissions[]" value="performance"> Performance<br>
     <input type="checkbox" name="permissions[]" value="behavior"> Behavior<br>
+    <input type="checkbox" name="permissions[]" value="identity"> Identity<br>
     <br>
     <button type="submit" name="add_user">Create User</button>
 </form>

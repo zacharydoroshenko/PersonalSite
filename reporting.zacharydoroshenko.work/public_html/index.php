@@ -20,20 +20,34 @@ if (!is_logged_in() && !in_array($action, ['login', 'do_login'])) {
 // 4. Routing
 switch ($action) {
 
-case 'manage_users':
+    case 'manage_users':
         if (!has_role('super_admin')) {
-            include 'views/403.php'; // Create a simple "Access Denied" page
-            exit;
+            $view = 'views/403.php'; 
+            break;
         }
         $view = 'views/manage_users.php';
         break;
 
     case 'performance_report':
         if (!can_access_section('performance')) {
-            include 'views/403.php';
-            exit;
+            $view = 'views/403.php'; 
+            break;
         }
         $view = 'views/reports/performance.php';
+        break;
+    case 'identity_report':
+        if (!can_access_section('identity')) {
+            $view = 'views/403.php'; 
+            break;
+        }
+        $view = 'views/reports/identity.php';
+        break;
+    case 'behavior_report':
+        if (!can_access_section('behavior')) {
+            $view = 'views/403.php'; 
+            break;
+        }
+        $view = 'views/reports/behavior.php';
         break;
 
     case 'login':
@@ -80,8 +94,12 @@ case 'manage_users':
 <body>
     <?php if (is_logged_in()): ?>
     <nav>
-        <h3>Admin</h3>
+        <h3><?php echo $_SESSION['username'] ?? 'User'?></h3>
         <a href="index.php?action=dashboard">Dashboard</a>
+        <a href="index.php?action=performance_report">Performance</a>
+        <a href="index.php?action=identity_report">Identity</a>
+        <a href="index.php?action=behavior_report">Behavior</a>
+        <a href="index.php?action=manage_users">Manage Users</a>
         <a href="index.php?action=logout">Logout</a>
     </nav>
     <?php endif; ?>
