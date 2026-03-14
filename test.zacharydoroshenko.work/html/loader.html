@@ -1,0 +1,11 @@
+<!-- Analytics Collector -- Place in <head> -->
+<script>
+  window._cq = window._cq || [];
+  _cq.push(['init', {
+    endpoint: 'https://analytics.example.com/collect',
+    enableVitals: true,
+    enableErrors: true,
+    sampleRate: 1.0
+  }]);
+</script>
+<script async src="https://analytics.example.com/collector-v9.min.js"></script>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analytics Dashboard</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; font-family: sans-serif; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        tr:nth-child(even) { background-color: #f2 f2 f2; }
+    </style>
+</head>
+<body>
+    <h1>Logged Analytics Data</h1>
+    <table id="logsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Event</th>
+                <th>URL</th>
+                <th>Load Time (ms)</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        // Fetch data from your NEW REST endpoint
+        fetch('https://reporting.zacharydoroshenko.work/api.php/static')
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.querySelector('#logsTable tbody');
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.id}</td>
+                        <td>${row.event_type}</td>
+                        <td>${row.url}</td>
+                        <td>${row.load_time_ms}</td>
+                        <td>${row.created_at}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            });
+    </script>
+</body>
+</html>
