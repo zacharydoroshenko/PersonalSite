@@ -1,15 +1,14 @@
 <?php
-// public_html/views/manage_users.php
 if (!has_role('super_admin')) die('Unauthorized');
 
-// Handle User Creation or update
+// User Creation or update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_user'])) {
     $new_user = $_POST['username'];
     $new_pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $new_role = $_POST['role'];
     $perms = json_encode($_POST['permissions'] ?? []);
 
-    // The SQL "UPSERT" (Update or Insert)
+    // The SQL 
     $sql = "INSERT INTO users (username, password_hash, role, permissions) 
             VALUES (?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE 
